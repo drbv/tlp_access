@@ -88,7 +88,7 @@ Sub build_html(pr, RT_nr, Runde)
                     line = Replace(line, "x__td1", make_a_inpRRE("ab1", 10, "AF - Synchronität und Harmonie"))
                     line = Replace(line, "x__ch1", make_a_inpRRE("aw1", 10, "AF - Bilder und Bildwechsel (Schwierigkeit, Ausführung)"))
                     line = Replace(line, "x__da1", make_a_inpRRE("af1", 10, "AF - Formationsfiguren und Effekte") & kl_abstand)
-                    Select Case wr!WR_function
+                    Select Case wr!wr_function
                         Case "X"
                             line = Replace(line, "x__fuss", "")
                             line = Replace(line, "x__akro", " class=""in_vis""")
@@ -114,14 +114,14 @@ Sub build_html(pr, RT_nr, Runde)
                     line = Replace(line, "x__td1", make_a_inpRRE("ab1", 10, "AF - Bilder (Kreativität, Schwierigkeit, Ausführung)"))
                     line = Replace(line, "x__ch1", make_a_inpRRE("aw1", 10, "AF - Bildwechsel (Schwierigkeit, Ausführung)"))
                     line = Replace(line, "x__da1", make_a_inpRRE("af1", 10, "AF - Formationsfiguren und Effekte") & kl_abstand)
-                    If wr!WR_function = "Ob" Then
+                    If wr!wr_function = "Ob" Then
                         line = Replace(line, "x__ak" & sei_1, make_akroOBS(re, Runde, sei_1, a_check, 8, a_paare))
                         line = Replace(line, "<input id=""absend"" type=""button"" class=""button_1"" value=""Absenden"" disabled ", "<input id=""absend"" type=""button"" class=""button_2"" value=""Absenden"" ")
                     Else
                         line = Replace(line, "x__ak" & sei_1, make_akroRRE(re, Runde, sei_1, a_check, 8, a_paare))
                     End If
                     line = Replace(line, "x__ber", akro_ber(re!Startkl, Runde))       ' für Berechnung in HTML-Seite
-                    Select Case wr!WR_function
+                    Select Case wr!wr_function
                         Case "Ft"
                             line = Replace(line, "x__fuss", "")
                             line = Replace(line, "x__akro", " class=""in_vis""")
@@ -158,14 +158,14 @@ Sub build_html(pr, RT_nr, Runde)
                     line = Replace(line, "x__ch1", make_a_inpRRE("ch1", 10, "Tanz - Choreographie"))
                     line = Replace(line, "x__tf1", make_a_inpRRE("tf1", 10, "Tanz - Tanzfiguren"))
                     line = Replace(line, "x__da1", make_a_inpRRE("da1", 10, "Tanz - tänzerische Darbietung") & kl_abstand)
-                    If wr!WR_function = "Ob" Then
+                    If wr!wr_function = "Ob" Then
                         line = Replace(line, "x__ak" & sei_1, make_akroOBS(re, Runde, sei_1, a_check, 6, a_paare))
                         line = Replace(line, "<input id=""absend"" type=""button"" class=""button_1"" value=""Absenden"" disabled ", "<input id=""absend"" type=""button"" class=""button_2"" value=""Absenden"" ")
                     Else
                         line = Replace(line, "x__ak" & sei_1, make_akroRRE(re, Runde, sei_1, a_check, 6, a_paare))
                     End If
                     line = Replace(line, "x__ber", akro_ber(re!Startkl, Runde))       ' für Berechnung in HTML-Seite
-                    Select Case wr!WR_function
+                    Select Case wr!wr_function
                         Case "Ft"
                             line = Replace(line, "x__fuss", "")
                             line = Replace(line, "x__akro", " class=""in_vis""")
@@ -193,7 +193,7 @@ Sub build_html(pr, RT_nr, Runde)
                         line = Replace(line, "x__ch2", make_a_inpRRE("ch2", 10, "Tanz - Choreographie"))
                         line = Replace(line, "x__tf2", make_a_inpRRE("tf2", 10, "Tanz - Tanzfiguren"))
                         line = Replace(line, "x__da2", make_a_inpRRE("da2", 10, "Tanz - tänzerische Darbietung") & kl_abstand)
-                        If wr!WR_function = "Ob" Then
+                        If wr!wr_function = "Ob" Then
                             line = Replace(line, "x__ak" & sei_2, make_akroOBS(re, Runde, sei_2, a_check, 6, a_paare))
                         Else
                             line = Replace(line, "x__ak" & sei_2, make_akroRRE(re, Runde, sei_2, a_check, 6, a_paare))
@@ -202,7 +202,7 @@ Sub build_html(pr, RT_nr, Runde)
                     line = Replace(line, "x__ck", ", " & left(a_check, Len(a_check) - 2))
                 Case "BW_"
                     ' Vorbereitung für kurze Wertung in den Vorrunden
-                    If wr!WR_function = "Ob" Then
+                    If wr!wr_function = "Ob" Then
                         line = get_line("BW", "Observer", ppr)
                         line = fill_observer_verstoesse(line, re, ppr, RT_nr, sei_1, sei_2, wr!WR_ID)
                     Else

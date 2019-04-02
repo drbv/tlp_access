@@ -535,10 +535,12 @@ Private Sub btnOK_Click()
 End Sub
 
 Private Sub Form_Open(Cancel As Integer)
-    If Me.ListeTurnierdaten.Height > 4000 Then
-        Me!ListeTurnierdaten.RowSource = "SELECT TLP_TERMINE.Terminnummer AS Turniernr, TLP_TERMINE.Datum, TLP_TERMINE.Bezeichnung, [PLZ] & "" "" & [Ort] AS Name, TLP_TERMINE.PLZ, TLP_TERMINE.Ort, TLP_TERMINE.Mitgliedsnr, TLP_TERMINE.Raum, TLP_TERMINE.Straße, TLP_TERMINE.Beginn, TLP_TERMINE.Ende, TLP_TERMINE.Clubname_kurz, Left([Terminnummer],1) AS Ausdr1, TLP_TERMINE.Turnierleiter FROM TLP_TERMINE WHERE (((TLP_TERMINE.Datum)>=Now()-1) AND ((Left([Terminnummer],1))=1)) ORDER BY TLP_TERMINE.Datum, [PLZ] & "" "" & [Ort], TLP_TERMINE.Bezeichnung;"
-    Else
+    If get_properties("LAENDER_VERSION") <> "" Then
+        Me.ListeTurnierdaten.Height = 2660
         Me!ListeTurnierdaten.RowSource = "SELECT TLP_TERMINE.Terminnummer AS Turniernr, TLP_TERMINE.Datum, TLP_TERMINE.Bezeichnung, [PLZ] & "" "" & [Ort] AS Name, TLP_TERMINE.PLZ, TLP_TERMINE.Ort, TLP_TERMINE.Mitgliedsnr, TLP_TERMINE.Raum, TLP_TERMINE.Straße, TLP_TERMINE.Beginn, TLP_TERMINE.Ende, TLP_TERMINE.Clubname_kurz, Left([Terminnummer],1) AS Ausdr1, TLP_TERMINE.Turnierleiter FROM TLP_TERMINE WHERE (((TLP_TERMINE.Datum)>=Now()-1) AND ((Left([Terminnummer],1))=2)) ORDER BY TLP_TERMINE.Datum, [PLZ] & "" "" & [Ort], TLP_TERMINE.Bezeichnung;"
+    Else
+        Me.ListeTurnierdaten.Height = 5900
+        Me!ListeTurnierdaten.RowSource = "SELECT TLP_TERMINE.Terminnummer AS Turniernr, TLP_TERMINE.Datum, TLP_TERMINE.Bezeichnung, [PLZ] & "" "" & [Ort] AS Name, TLP_TERMINE.PLZ, TLP_TERMINE.Ort, TLP_TERMINE.Mitgliedsnr, TLP_TERMINE.Raum, TLP_TERMINE.Straße, TLP_TERMINE.Beginn, TLP_TERMINE.Ende, TLP_TERMINE.Clubname_kurz, Left([Terminnummer],1) AS Ausdr1, TLP_TERMINE.Turnierleiter FROM TLP_TERMINE WHERE (((TLP_TERMINE.Datum)>=Now()-1) AND ((Left([Terminnummer],1))=1)) ORDER BY TLP_TERMINE.Datum, [PLZ] & "" "" & [Ort], TLP_TERMINE.Bezeichnung;"
     End If
 End Sub
 

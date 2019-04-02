@@ -1,4 +1,4 @@
-﻿Version =20
+﻿Version =21
 VersionRequired =20
 Begin Form
     AutoCenter = NotDefault
@@ -259,7 +259,6 @@ Begin Form
                     ForeColor =0
                     Name ="Punkte"
                     ControlSource ="Punkte"
-                    ValidationRule ="(<=[Forms]![Wertung_aufnehmen]![Maxwertung] And >=0) Or Is Null"
                     OnKeyDown ="[Event Procedure]"
 
                 End

@@ -12,10 +12,10 @@ Begin Form
     Width =13606
     DatasheetFontHeight =10
     ItemSuffix =146
-    Left =345
-    Top =420
-    Right =13950
-    Bottom =8025
+    Left =1815
+    Top =480
+    Right =22050
+    Bottom =13605
     DatasheetGridlinesColor =12632256
     RecSrcDt = Begin
         0xe816ce0dfc35e240
@@ -390,7 +390,7 @@ Begin Form
                     OverlapFlags =85
                     Left =165
                     Top =6930
-                    Width =2325
+                    Width =2268
                     Height =285
                     FontSize =6
                     FontWeight =700
@@ -399,7 +399,7 @@ Begin Form
                     EventProcPrefix ="btn_Dokumentation_17"
                     LayoutCachedLeft =165
                     LayoutCachedTop =6930
-                    LayoutCachedWidth =2490
+                    LayoutCachedWidth =2433
                     LayoutCachedHeight =7215
                 End
                 Begin Label
@@ -838,7 +838,7 @@ Begin Form
                 Begin Label
                     OverlapFlags =85
                     TextAlign =3
-                    Left =10425
+                    Left =10365
                     Top =6930
                     Width =3000
                     Height =285
@@ -847,9 +847,9 @@ Begin Form
                     Name ="btn Dokumentation_19"
                     Caption ="19"
                     EventProcPrefix ="btn_Dokumentation_19"
-                    LayoutCachedLeft =10425
+                    LayoutCachedLeft =10365
                     LayoutCachedTop =6930
-                    LayoutCachedWidth =13425
+                    LayoutCachedWidth =13365
                     LayoutCachedHeight =7215
                 End
                 Begin TextBox
@@ -1172,18 +1172,18 @@ Begin Form
                 End
                 Begin Label
                     OverlapFlags =85
-                    Left =2550
+                    Left =2490
                     Top =6930
-                    Width =7770
+                    Width =7768
                     Height =285
                     FontSize =6
                     FontWeight =700
                     Name ="btn Dokumentation_18"
                     Caption ="18"
                     EventProcPrefix ="btn_Dokumentation_18"
-                    LayoutCachedLeft =2550
+                    LayoutCachedLeft =2490
                     LayoutCachedTop =6930
-                    LayoutCachedWidth =10320
+                    LayoutCachedWidth =10258
                     LayoutCachedHeight =7215
                 End
                 Begin CommandButton
@@ -1847,7 +1847,7 @@ Private Sub Form_Open(Cancel As Integer)
     Dim s_row  As String
     
     Set Db = CurrentDb
-    Set re = Db.OpenRecordset("Dokumente")
+    Set re = Db.OpenRecordset("SELECT * FROM Dokumente WHERE " & IIf(get_properties("LAENDER_VERSION") = "", "Land is Null", "Land='" & get_properties("LAENDER_VERSION") & "'") & " AND btn Like 'btn Dokumentation_*';")
     re.MoveFirst
     Do Until re.EOF
         Me(re!btn).Caption = re!Caption

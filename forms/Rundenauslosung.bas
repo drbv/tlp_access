@@ -8,10 +8,10 @@ Begin Form
     Width =16791
     DatasheetFontHeight =10
     ItemSuffix =59
-    Left =-1875
-    Top =525
-    Right =14625
-    Bottom =9045
+    Left =135
+    Top =900
+    Right =21960
+    Bottom =9420
     DatasheetGridlinesColor =12632256
     RecSrcDt = Begin
         0xe415d7c29a0ee540
@@ -630,7 +630,8 @@ Begin Form
                     TabIndex =13
                     Name ="Feld52"
                     RowSourceType ="Value List"
-                    RowSource ="1;\"Zufall\";2;\"umgekehrte Startreihenfolge\";3;\"umgekehrte Platzierung\""
+                    RowSource ="1;\"Zufall\";2;\"umgekehrte Startreihenfolge\";3;\"umgekehrte Platzierung\";4;\""
+                        "gleiche Startreihenfolge\""
                     ColumnWidths ="0;2439"
                     DefaultValue ="1"
 
@@ -844,7 +845,7 @@ Private Sub Befehl47_Click()
 End Sub
 
 Private Sub Befehl58_Click()
-    Dim st
+    Dim st          ' Nocheinmal starten
     Dim back
     If Me!nochmal = True Then
         back = MsgBox("Das Paar startet schon nocheinmal!" & vbCrLf & vbCrLf & "Wirklich nochmal starten?", vbYesNo)
@@ -854,12 +855,14 @@ Private Sub Befehl58_Click()
     If back = vbNo Then
         Exit Sub
     Else
-        st = get_url_to_string_check("http://" & GetIpAddrTable() & "/hand?msg=nochmal_starten&text=" & TP_ID)
-        If st = "eingetragen" Then
-            Me!nochmal = True
-            DoCmd.Requery
-        Else
-            MsgBox "Die Wiederholung wurde nicht eingetragen"
+        If get_properties("EWS") = "EWS3" Then
+            st = get_url_to_string_check("http://" & GetIpAddrTable() & "/hand?msg=nochmal_starten&text=" & TP_ID)
+            If st = "eingetragen" Then
+                Me!nochmal = True
+                DoCmd.Requery
+            Else
+                MsgBox "Die Wiederholung der Runde wurde nicht eingetragen!"
+            End If
         End If
     End If
 End Sub
@@ -1141,8 +1144,11 @@ Private Sub umgekehrte_Reihenfolge()
         ' Startreihenfolge
         Set rstpaare = dbs.OpenRecordset("SELECT Paare_Rundenqualifikation.TP_ID, Count(Paare_Rundenqualifikation.RT_ID) AS AnzahlvonRT_ID, Last(Paare_Rundenqualifikation.Rundennummer) AS LetzterWertvonRundennummer FROM Paare_Rundenqualifikation WHERE (Paare_Rundenqualifikation.RT_ID=" & fil & ") GROUP BY Paare_Rundenqualifikation.TP_ID ORDER BY Count(Paare_Rundenqualifikation.RT_ID) DESC, Last(Paare_Rundenqualifikation.Rundennummer) DESC;")
     ElseIf Me!Feld52 = 3 Then
-        ' Platzierung
+        ' umgekehrte Platzierung
         Set rstpaare = dbs.OpenRecordset("SELECT Majoritaet.TP_ID, Count(Majoritaet.RT_ID) AS AnzahlvonRT_ID, Min(Majoritaet.Platz) AS Platzierung, Last(Paare_Rundenqualifikation.Rundennummer) AS LetzterWertvonRundennummer FROM Majoritaet INNER JOIN Paare_Rundenqualifikation ON (Majoritaet.RT_ID = Paare_Rundenqualifikation.RT_ID) AND (Majoritaet.TP_ID = Paare_Rundenqualifikation.TP_ID) WHERE (Paare_Rundenqualifikation.RT_ID=" & fil & ") GROUP BY Majoritaet.TP_ID ORDER BY Count(Majoritaet.RT_ID) DESC, Min(Majoritaet.Platz) DESC;")
+    ElseIf Me!Feld52 = 4 Then
+        ' gleiche Platzierung
+        Set rstpaare = dbs.OpenRecordset("SELECT Majoritaet.TP_ID, Count(Majoritaet.RT_ID) AS AnzahlvonRT_ID, Min(Majoritaet.Platz) AS Platzierung, Last(Paare_Rundenqualifikation.Rundennummer) AS LetzterWertvonRundennummer FROM Majoritaet INNER JOIN Paare_Rundenqualifikation ON (Majoritaet.RT_ID = Paare_Rundenqualifikation.RT_ID) AND (Majoritaet.TP_ID = Paare_Rundenqualifikation.TP_ID) WHERE (Paare_Rundenqualifikation.RT_ID=" & fil & ") GROUP BY Majoritaet.TP_ID ORDER BY Count(Majoritaet.RT_ID), Min(Majoritaet.Platz) DESC;")
     Else
         MsgBox "Fehler bei der Sortierreihenfolge!"
     End If

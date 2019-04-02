@@ -18,8 +18,10 @@ Public Function get_wertungen(rt, s_kl, rde)  'Aus Server Input-Datei einlesen
     Dim sqlcmd As String
     Dim strEWS2 As String
     Dim ft_rt As Integer
-    Dim cgivar
+    Dim cgivar, WR_func
     Set Db = CurrentDb
+    
+    WR_func = gen_wr_arr(s_kl)
     
     fName = getBaseDir & get_TerNr & "_RT" & CInt(rt) & "_raw.txt"   ' Dateiname erstellen
     Set fs = CreateObject("Scripting.FileSystemObject")
@@ -71,7 +73,7 @@ Public Function get_wertungen(rt, s_kl, rde)  'Aus Server Input-Datei einlesen
             If cgivar(1) = 99 Then
                 re!Punkte = rechne_abzuege(cgivar(0), cgivar(2))
             Else
-                re!Punkte = rechne_punkte(cgivar(0), cgivar(2), s_kl, rh, rde, ft_rt)   'Punkte Klassen- und Rundenabhängig ausrechen
+                re!Punkte = rechne_punkte(cgivar(0), cgivar(2), s_kl, rh, rde, ft_rt, WR_func)   ' Punkte Klassen- und Rundenabhängig ausrechen
             End If
             re!Reihenfolge = rh
             re!Cgi_Input = cgivar(2)
@@ -91,6 +93,19 @@ Public Function get_wertungen(rt, s_kl, rde)  'Aus Server Input-Datei einlesen
         re.MoveNext
     Loop
 
+End Function
+
+Private Function gen_wr_arr(s_kl)
+    Dim re As Recordset
+    Set re = Db.OpenRecordset("SELECT * FROM Startklasse_Wertungsrichter WHERE Startklasse ='" & s_kl & "' ORDER BY wr_id DESC;")
+    Dim back
+    ReDim back(re!WR_ID)
+    re.MoveFirst
+    Do Until re.EOF
+        back(re!WR_ID) = re!wr_function
+        re.MoveNext
+    Loop
+    gen_wr_arr = back
 End Function
 
 Private Function rechne_abzuege(PR_ID, inp)
@@ -113,7 +128,7 @@ Private Function rechne_abzuege(PR_ID, inp)
     rechne_abzuege = Punkte
 End Function
 
-Private Function rechne_punkte(PR_ID, inp, s_kl, rh, rde, ft_rt)
+Private Function rechne_punkte(PR_ID, inp, s_kl, rh, rde, ft_rt, WR_func)
     'Punkte Klassen- und Rundenabhängig ausrechen
     Dim vars
     Dim i, t As Integer
@@ -142,7 +157,7 @@ Private Function rechne_punkte(PR_ID, inp, s_kl, rh, rde, ft_rt)
             If vars.Item("tfl" & i & "a20") <> "" Then
                 Punkte = Punkte + CSng(vars.Item("wfl" & i & "a20"))
             Else
-                Punkte = add_akro(vars, i, t)
+                If WR_func(vars.Item("WR_ID")) <> "Ob" Then Punkte = add_akro(vars, i, t)
                 If t = 0 Then t = 1
                 '"wtk1", "wch1", "wtf1", "wab1", "waw1", "waf1" , "wak11", "wak12", "wak13", "wak14", "wak15", "wak16", "wak17", "wak18"
                 If s_kl = "F_RR_M" Then ' Master RR
@@ -162,7 +177,7 @@ Private Function rechne_punkte(PR_ID, inp, s_kl, rh, rde, ft_rt)
             If vars.Item("tfl" & i & "a20") <> "" Then
                 Punkte = Punkte + CSng(vars.Item("wfl" & i & "a20"))
             Else
-                Punkte = add_akro(vars, i, t)
+                If WR_func(vars.Item("WR_ID")) <> "Ob" Then Punkte = add_akro(vars, i, t)
                 If t = 0 Then t = 1     '  Wegen Runden in denen keine Akro ist
                 If InStr(1, rde, "_Fuß") > 0 Then Punkte = 0
                 If vars.Item("wsh" & i) <> "" Then
@@ -627,7 +642,7 @@ Public Sub ObserverHTML(trunde)
     
         Paar_Infos.FindFirst "TP_ID = " & AbgegebeneWertungen!Paar_ID
     
-        If AbgegebeneWertungen!WR_function = "Ft" Or AbgegebeneWertungen!WR_function = "X" Then
+        If AbgegebeneWertungen!wr_function = "Ft" Or AbgegebeneWertungen!wr_function = "X" Then
         
             GesamtPunkte = 0
             Select Case left(st_kl, 3)

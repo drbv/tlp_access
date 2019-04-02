@@ -2333,7 +2333,7 @@ Sub Tanzrunde_AfterUpdate()
             Me!Startnr.Visible = True
             Me("Tr0").Visible = True
             Do Until re.EOF
-                If re!WR_function = "Ob" Then
+                If re!wr_function = "Ob" Then
                     abzug_anzeige re!WR_ID, re!Ausdr1
                 Else
                     Me("Pu" & t).Visible = True
