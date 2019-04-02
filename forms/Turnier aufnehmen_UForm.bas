@@ -1,4 +1,4 @@
-﻿Version =20
+﻿Version =21
 VersionRequired =20
 Begin Form
     AutoCenter = NotDefault
@@ -209,8 +209,11 @@ Begin Form
                     ControlSource ="Startklasse"
                     RowSourceType ="Table/Query"
                     RowSource ="SELECT Startklasse.Startklasse, Startklasse.Startklasse_text, Startklasse.Reihen"
-                        "folge, Startklasse.isStartklasse FROM Startklasse WHERE (((Startklasse.isStartkl"
-                        "asse)=Yes)) ORDER BY Startklasse.Reihenfolge;"
+                        "folge, Startklasse.isStartklasse, Nz([Land]) AS Ausdr1 FROM Startklasse WHERE (("
+                        "(Startklasse.isStartklasse)=Yes) AND ((Nz([Land]))=IIf(IsNull((SELECT PROP_VALUE"
+                        " FROM Properties WHERE PROP_KEY = 'LAENDER_VERSION';)),\"\",(SELECT PROP_VALUE F"
+                        "ROM Properties WHERE PROP_KEY = 'LAENDER_VERSION';)))) ORDER BY Startklasse.Reih"
+                        "enfolge;"
                     ColumnWidths ="0;1134;0"
                     OnKeyDown ="[Event Procedure]"
 

@@ -21,8 +21,9 @@ Public Function get_wertungen(rt, s_kl, rde)  'Aus Server Input-Datei einlesen
     Dim cgivar
     Set Db = CurrentDb
     
+    fName = getBaseDir & get_TerNr & "_RT" & CInt(rt) & "_raw.txt"   ' Dateiname erstellen
     Set fs = CreateObject("Scripting.FileSystemObject")
-    If get_properties("EWS") = "EWS3" Then  ' bei EWS3 die rawWerte einlesen
+    If get_properties("EWS") = "EWS3" And Len(Dir(fName)) > 0 Then  ' bei EWS3 die rawWerte einlesen
         Set inp = fs.OpenTextFile(getBaseDir & get_TerNr & "_RT" & CInt(rt) & "_raw.txt", 1, 0)  'reading
         Set ana = Db.OpenRecordset("Analyse", DB_OPEN_DYNASET)
         Do Until inp.AtEndOfStream
@@ -224,7 +225,7 @@ Private Function rechne_punkte(PR_ID, inp, s_kl, rh, rde, ft_rt)
         Case Else
             MsgBox "Fehler bei der Punkteberechnung Startklasse wurde nicht erkannt."
     End Select
-    If Punkte < 0 Then Punkte = 0
+'    If Punkte < 0 Then Punkte = 0
     rechne_punkte = FormatNumber(Punkte, 2)
 End Function
 
@@ -303,11 +304,17 @@ Function Punkteverteilung(Startklasse, rd, rde)
             punkte_verteilung = Array(4.5, 4.5, 4.5, 4.5, 5.4, 5.4, 7.2)
         Case "RR_S"
             punkte_verteilung = Array(4.5, 4.5, 4.5, 4.5, 5.4, 5.4, 7.2)
-            
-        Case "BW_MA", "BW_SA", "BW_JA"  ' newJudgingSystem A
-            punkte_verteilung = Array(15, 15, 20, 0, 30, 10, 10)
-        Case "BW_MB", "BW_SB" ' newJudgingSystem B
-            punkte_verteilung = Array(15, 15, 20, 0, 30, 10, 10)
+        ' Boogie NJS TSO1.8
+        Case "BW_MA"
+            punkte_verteilung = Array(15, 7.5, 10, 0, 15, 10, 7.5)
+        Case "BW_SA"
+            punkte_verteilung = Array(15, 7.5, 10, 0, 15, 10, 7.5)
+        Case "BW_JA"
+            punkte_verteilung = Array(15, 7.5, 10, 0, 15, 10, 7.5)
+        Case "BW_MB"
+            punkte_verteilung = Array(15, 7.5, 10, 0, 15, 10, 7.5)
+        Case "BW_SB"
+            punkte_verteilung = Array(15, 7.5, 10, 0, 15, 10, 7.5)
         Case Else
             punkte_verteilung = Array(10, 10, 10, 10, 10, 10, 10, 10, 10)
     End Select
@@ -514,8 +521,13 @@ Set html_felder = Db.OpenRecordset("Select * from Wertungsbögen where wb =""" & 
                 
                 For Akrozähler = 1 To 8
                     AbgegebeneWertungen("Akrobatik" & Akrozähler) = Str_to_Sng(back.Item("wak" & n & Akrozähler))
-                    AbgegebeneWertungen("Akrobatik" & Akrozähler & "_Grobfehler_Text") = back.Item("tfl" & n & "_ak" & n & Akrozähler)
-                    AbgegebeneWertungen("Akrobatik" & Akrozähler & "_Grobfehler_Summe") = Str_to_Sng(back.Item("wfl" & n & "_ak" & n & Akrozähler))
+                    If back.exists("tflak" & n & Akrozähler) Then
+                        AbgegebeneWertungen("Akrobatik" & Akrozähler & "_Grobfehler_Text") = back.Item("tfl" & "ak" & n & Akrozähler)
+                        AbgegebeneWertungen("Akrobatik" & Akrozähler & "_Grobfehler_Summe") = Str_to_Sng(back.Item("wfl" & "ak" & n & Akrozähler))
+                    Else
+                        AbgegebeneWertungen("Akrobatik" & Akrozähler & "_Grobfehler_Text") = back.Item("tfl" & n & "_ak" & n & Akrozähler)
+                        AbgegebeneWertungen("Akrobatik" & Akrozähler & "_Grobfehler_Summe") = Str_to_Sng(back.Item("wfl" & n & "_ak" & n & Akrozähler))
+                    End If
                 Next
                 AbgegebeneWertungen.Update
             Next

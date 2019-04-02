@@ -14,8 +14,8 @@ Begin Form
     ItemSuffix =146
     Left =345
     Top =420
-    Right =21975
-    Bottom =13860
+    Right =13950
+    Bottom =8025
     DatasheetGridlinesColor =12632256
     RecSrcDt = Begin
         0xe816ce0dfc35e240
@@ -391,7 +391,7 @@ Begin Form
                     Left =165
                     Top =6930
                     Width =2325
-                    Height =330
+                    Height =285
                     FontSize =6
                     FontWeight =700
                     Name ="btn Dokumentation_17"
@@ -400,7 +400,7 @@ Begin Form
                     LayoutCachedLeft =165
                     LayoutCachedTop =6930
                     LayoutCachedWidth =2490
-                    LayoutCachedHeight =7260
+                    LayoutCachedHeight =7215
                 End
                 Begin Label
                     OverlapFlags =215
@@ -838,19 +838,19 @@ Begin Form
                 Begin Label
                     OverlapFlags =85
                     TextAlign =3
-                    Left =10365
+                    Left =10425
                     Top =6930
                     Width =3000
-                    Height =330
+                    Height =285
                     FontSize =6
                     FontWeight =700
                     Name ="btn Dokumentation_19"
                     Caption ="19"
                     EventProcPrefix ="btn_Dokumentation_19"
-                    LayoutCachedLeft =10365
+                    LayoutCachedLeft =10425
                     LayoutCachedTop =6930
-                    LayoutCachedWidth =13365
-                    LayoutCachedHeight =7260
+                    LayoutCachedWidth =13425
+                    LayoutCachedHeight =7215
                 End
                 Begin TextBox
                     Visible = NotDefault
@@ -1172,19 +1172,19 @@ Begin Form
                 End
                 Begin Label
                     OverlapFlags =85
-                    Left =2715
+                    Left =2550
                     Top =6930
-                    Width =7485
-                    Height =330
+                    Width =7770
+                    Height =285
                     FontSize =6
                     FontWeight =700
                     Name ="btn Dokumentation_18"
                     Caption ="18"
                     EventProcPrefix ="btn_Dokumentation_18"
-                    LayoutCachedLeft =2715
+                    LayoutCachedLeft =2550
                     LayoutCachedTop =6930
-                    LayoutCachedWidth =10200
-                    LayoutCachedHeight =7260
+                    LayoutCachedWidth =10320
+                    LayoutCachedHeight =7215
                 End
                 Begin CommandButton
                     OverlapFlags =215

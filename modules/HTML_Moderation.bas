@@ -213,8 +213,8 @@ Public Sub make_a_siegerehrung(RT_ID As Integer)
     Set Db = CurrentDb
     Set re = Db.OpenRecordset("SELECT v.*, r.*,p.* FROM (View_Majoritaet v INNER JOIN View_Runden r ON v.RT_ID = r.RT_ID) INNER JOIN View_Paare p ON v.TP_ID = p.TP_ID WHERE (v.RT_ID=" & RT_ID & ") ORDER BY v.Platz DESC;")
     ' Wegen neuer Wertung im RR
+    If re.RecordCount = 0 Then Exit Sub
     sie_id = get_siegerID(re![r.Startklasse])
-    If sie_id = "" Then Exit Sub
     st_kl = re![r.Startklasse_text]
     tr_nr = "T" & Forms![A-Programmübersicht]!Turnier_Nummer
     ht_pfad = getBaseDir & "Apache2\htdocs\"

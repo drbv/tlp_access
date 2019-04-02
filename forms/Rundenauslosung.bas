@@ -1376,11 +1376,11 @@ Private Sub zufallszahl()
             was = 1
         End If
         was = was + 1
-        If (rstauslosung!Auslosung >= 1000) Then
-            rstauslosung!Rundennummer = Null
-        Else
+'        If (rstauslosung!Auslosung >= 1000) Then
+'            rstauslosung!Rundennummer = Null
+'        Else
             rstauslosung!Rundennummer = trunde
-        End If
+'        End If
         
         rstauslosung.Update
         rstauslosung.MoveNext

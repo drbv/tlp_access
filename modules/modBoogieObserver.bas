@@ -44,8 +44,6 @@ Function fill_observer_verstoesse(line, re, ppr, RT_nr, sei_1, sei_2, WR_ID)
         For t = 0 To 7
             Select Case verstoss(t, 1)
                 Case 0
-                    color = "gray"
-                Case 3
                     color = "yell"
                 Case 30
                     color = "red"
